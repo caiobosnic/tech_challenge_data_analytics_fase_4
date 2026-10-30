@@ -1,7 +1,10 @@
-# Power BI gera estes ao abrir o projeto
-*.pbip
+# referencias internas do projeto da fase 3: ficam so na maquina
+powerbi/_modelo/referencia/
+
+# o Power BI cria estes ao abrir o projeto
 .pbi/
 localSettings.json
+*.pbix.bak
 
 # saida do Colab e do Jupyter
 .ipynb_checkpoints/

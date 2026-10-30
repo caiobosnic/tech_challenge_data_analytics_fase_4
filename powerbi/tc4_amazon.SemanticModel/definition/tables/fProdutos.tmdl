@@ -1,0 +1,207 @@
+table fProdutos
+	lineageTag: f4574d7f-627f-5a6e-9fd0-1c58f6a99e83
+
+	column product_id
+		dataType: string
+		lineageTag: 616150ff-36d4-54c1-8d23-f5eb3fb14fbb
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_name
+		dataType: string
+		lineageTag: 16ddb3b3-7e11-5b89-8889-908449fd3681
+		summarizeBy: none
+		sourceColumn: product_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column discounted_price_rupia
+		dataType: double
+		formatString: #,0.00
+		lineageTag: aff3c520-a9e5-5496-86a9-0c741a4734a2
+		summarizeBy: none
+		sourceColumn: discounted_price_rupia
+
+		annotation SummarizationSetBy = Automatic
+
+	column actual_price_rupia
+		dataType: double
+		formatString: #,0.00
+		lineageTag: 26912893-28a0-5f64-9c37-9d58a8e0df66
+		summarizeBy: none
+		sourceColumn: actual_price_rupia
+
+		annotation SummarizationSetBy = Automatic
+
+	column discount_percentage
+		dataType: double
+		formatString: 0.0%
+		lineageTag: c3bd6467-beb1-5b5f-b47b-47b8edf79143
+		summarizeBy: none
+		sourceColumn: discount_percentage
+
+		annotation SummarizationSetBy = Automatic
+
+	column rating
+		dataType: double
+		formatString: 0.00
+		lineageTag: b1f1da45-64c2-5a7c-83ed-bf27e05e43ef
+		summarizeBy: none
+		sourceColumn: rating
+
+		annotation SummarizationSetBy = Automatic
+
+	column rating_count
+		dataType: int64
+		formatString: #,0
+		lineageTag: 32c1f6f3-54d2-597c-a02f-e3619f7b2dc6
+		summarizeBy: none
+		sourceColumn: rating_count
+
+		annotation SummarizationSetBy = Automatic
+
+	column img_link
+		isHidden
+		dataType: string
+		lineageTag: ee3fb0a1-ea45-54ea-b177-acddae2bf405
+		summarizeBy: none
+		sourceColumn: img_link
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_link
+		isHidden
+		dataType: string
+		lineageTag: 8ac2e321-51fc-5d80-a58a-87cf17b50c5b
+		summarizeBy: none
+		sourceColumn: product_link
+
+		annotation SummarizationSetBy = Automatic
+
+	column sk_categoria
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: 51d41ac5-69f7-5201-8497-50b353446000
+		summarizeBy: none
+		sourceColumn: sk_categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column desconto_absoluto_rupia
+		dataType: double
+		formatString: #,0.00
+		lineageTag: b89eb466-15e0-5760-92c9-f47226b39d69
+		summarizeBy: none
+		sourceColumn: desconto_absoluto_rupia
+
+		annotation SummarizationSetBy = Automatic
+
+	column receita_potencial_rupia
+		dataType: double
+		formatString: #,0
+		lineageTag: 039947aa-bedc-5724-872b-d6b68a243963
+		summarizeBy: none
+		sourceColumn: receita_potencial_rupia
+
+		annotation SummarizationSetBy = Automatic
+
+	column percepcao
+		dataType: string
+		lineageTag: adf652c4-b81c-5c75-a181-3716e52b256e
+		summarizeBy: none
+		sourceColumn: percepcao
+
+		annotation SummarizationSetBy = Automatic
+
+	column faixa_nota = SWITCH(TRUE(), ISBLANK(fProdutos[rating]), "sem nota", fProdutos[rating] < 3.0, "abaixo de 3,0", fProdutos[rating] < 3.5, "3,0 a 3,4", fProdutos[rating] < 4.0, "3,5 a 3,9", fProdutos[rating] < 4.3, "4,0 a 4,2", fProdutos[rating] < 4.5, "4,3 a 4,4", "4,5 ou mais")
+		dataType: string
+		lineageTag: 26f327b0-b90b-5445-b374-be909ed22891
+		summarizeBy: none
+		sortByColumn: faixa_nota_ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column faixa_nota_ordem = SWITCH(TRUE(), ISBLANK(fProdutos[rating]), 0, fProdutos[rating] < 3.0, 1, fProdutos[rating] < 3.5, 2, fProdutos[rating] < 4.0, 3, fProdutos[rating] < 4.3, 4, fProdutos[rating] < 4.5, 5, 6)
+		dataType: int64
+		isHidden
+		lineageTag: 206aa059-020c-50e3-a004-b7f8a234f0b9
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column faixa_preco = SWITCH(TRUE(), fProdutos[discounted_price_rupia] < 200, "ate 200", fProdutos[discounted_price_rupia] < 500, "200 a 500", fProdutos[discounted_price_rupia] < 1000, "500 a 1.000", fProdutos[discounted_price_rupia] < 2000, "1.000 a 2.000", fProdutos[discounted_price_rupia] < 5000, "2.000 a 5.000", "acima de 5.000")
+		dataType: string
+		lineageTag: c79c86e5-1f82-58d7-ae37-1238321c4bb3
+		summarizeBy: none
+		sortByColumn: faixa_preco_ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column faixa_desconto = SWITCH(TRUE(), fProdutos[discount_percentage] < 0.2, "ate 20%", fProdutos[discount_percentage] < 0.4, "20 a 40%", fProdutos[discount_percentage] < 0.6, "40 a 60%", fProdutos[discount_percentage] < 0.8, "60 a 80%", "80% ou mais")
+		dataType: string
+		lineageTag: fd7b0856-9eeb-51d0-a521-5039926fe0cf
+		summarizeBy: none
+		sortByColumn: faixa_desconto_ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column faixa_desconto_ordem = SWITCH(TRUE(), fProdutos[discount_percentage] < 0.2, 1, fProdutos[discount_percentage] < 0.4, 2, fProdutos[discount_percentage] < 0.6, 3, fProdutos[discount_percentage] < 0.8, 4, 5)
+		dataType: int64
+		isHidden
+		lineageTag: be800740-7e16-5faa-8648-defb76b2842c
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column faixa_engajamento = SWITCH(TRUE(), fProdutos[rating_count] <= 1106, "ate 1.100", fProdutos[rating_count] <= 4740, "1.100 a 4.700", fProdutos[rating_count] <= 16020, "4.700 a 16.000", "acima de 16.000")
+		dataType: string
+		lineageTag: 5ab0a63f-0fa0-5cc8-8973-793b4941612e
+		summarizeBy: none
+		sortByColumn: faixa_engajamento_ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column faixa_engajamento_ordem = SWITCH(TRUE(), fProdutos[rating_count] <= 1106, 1, fProdutos[rating_count] <= 4740, 2, fProdutos[rating_count] <= 16020, 3, 4)
+		dataType: int64
+		isHidden
+		lineageTag: d97fd3e6-fb16-5c76-bf9d-54f26ab846bb
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column bolso = SWITCH( TRUE(), fProdutos[rating_count] >= 4740 && fProdutos[rating] <= 3.9, "muito avaliado, nota baixa", fProdutos[rating] >= 4.3 && fProdutos[rating_count] < 1000, "nota alta, pouco visto", "fora dos bolsos" )
+		dataType: string
+		lineageTag: b8326022-e74d-59e3-9f97-cacac15ec419
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column top_avaliacoes = IF( RANKX( ALL(fProdutos), fProdutos[rating_count], , DESC ) <= 10, "sim", "nao" )
+		dataType: string
+		lineageTag: f8007d8b-a8a7-55ab-b29f-59c16a0784d3
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	column faixa_preco_ordem = SWITCH(TRUE(), fProdutos[discounted_price_rupia] < 200, 1, fProdutos[discounted_price_rupia] < 500, 2, fProdutos[discounted_price_rupia] < 1000, 3, fProdutos[discounted_price_rupia] < 2000, 4, fProdutos[discounted_price_rupia] < 5000, 5, 6)
+		dataType: int64
+		isHidden
+		lineageTag: e4ff8c52-e26b-5238-be42-54ed5a3bd786
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fProdutos = m
+		mode: import
+		source =
+				let
+				    Origem = Csv.Document(File.Contents("C:\\Users\\bosni\\OneDrive\\Documentos\\Fiap\\PosTech - Data Analytics\\techchallenge\\tech_challenge_4\\results\\fProdutos.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Cabecalho = Table.PromoteHeaders(Origem, [PromoteAllScalars=true]),
+				    Tipado = Table.TransformColumnTypes(Cabecalho, {{"product_id", type text}, {"product_name", type text}, {"discounted_price_rupia", type number}, {"actual_price_rupia", type number}, {"discount_percentage", type number}, {"rating", type number}, {"rating_count", Int64.Type}, {"img_link", type text}, {"product_link", type text}, {"sk_categoria", Int64.Type}, {"desconto_absoluto_rupia", type number}, {"receita_potencial_rupia", type number}, {"percepcao", type text}}, "en-US")
+				in
+				    Tipado
+
+	annotation PBI_ResultType = Table

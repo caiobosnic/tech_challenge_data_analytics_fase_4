@@ -1,0 +1,57 @@
+table fAvaliacoes
+	lineageTag: 3af0622f-4e4a-56ba-8f55-3784d3535b18
+
+	column sk_avaliacao
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: f959c1c7-6dff-57ad-8532-6d86bf360484
+		summarizeBy: none
+		sourceColumn: sk_avaliacao
+
+		annotation SummarizationSetBy = Automatic
+
+	column review_id
+		dataType: string
+		lineageTag: 20638017-cdd0-57d9-842a-b20b9f99d3b9
+		summarizeBy: none
+		sourceColumn: review_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column product_id
+		dataType: string
+		lineageTag: 2e86e69c-cb35-5da5-8aa6-217f86e4c9f7
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column user_id
+		dataType: string
+		lineageTag: c2a611b4-7010-549f-9621-5468bc5f2bb7
+		summarizeBy: none
+		sourceColumn: user_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column posicao
+		dataType: int64
+		formatString: 0
+		lineageTag: 7330a3ce-a464-5436-bd4a-da51094296b4
+		summarizeBy: none
+		sourceColumn: posicao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition fAvaliacoes = m
+		mode: import
+		source =
+				let
+				    Origem = Csv.Document(File.Contents("C:\\Users\\bosni\\OneDrive\\Documentos\\Fiap\\PosTech - Data Analytics\\techchallenge\\tech_challenge_4\\results\\fAvaliacoes.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Cabecalho = Table.PromoteHeaders(Origem, [PromoteAllScalars=true]),
+				    Tipado = Table.TransformColumnTypes(Cabecalho, {{"sk_avaliacao", Int64.Type}, {"review_id", type text}, {"product_id", type text}, {"user_id", type text}, {"posicao", Int64.Type}}, "en-US")
+				in
+				    Tipado
+
+	annotation PBI_ResultType = Table

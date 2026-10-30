@@ -1,0 +1,48 @@
+table dFonte
+	lineageTag: a0a54264-ee2b-50ee-beba-4517345502d0
+
+	column ordem
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: 1d215cfb-3a7d-527d-a690-f3a997e5f27c
+		summarizeBy: none
+		sourceColumn: ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column secao
+		dataType: string
+		lineageTag: 609d0ea8-43e2-51e8-8829-fcd9a650d848
+		summarizeBy: none
+		sourceColumn: secao
+
+		annotation SummarizationSetBy = Automatic
+
+	column item
+		dataType: string
+		lineageTag: ab3ed91d-ed35-530b-bbc7-3fa96462e083
+		summarizeBy: none
+		sourceColumn: item
+
+		annotation SummarizationSetBy = Automatic
+
+	column detalhe
+		dataType: string
+		lineageTag: fa7d4092-d7a0-50a3-9e77-05cddadab49c
+		summarizeBy: none
+		sourceColumn: detalhe
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dFonte = m
+		mode: import
+		source =
+				let
+				    Origem = Csv.Document(File.Contents("C:\\Users\\bosni\\OneDrive\\Documentos\\Fiap\\PosTech - Data Analytics\\techchallenge\\tech_challenge_4\\results\\dFonte.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Cabecalho = Table.PromoteHeaders(Origem, [PromoteAllScalars=true]),
+				    Tipado = Table.TransformColumnTypes(Cabecalho, {{"ordem", Int64.Type}, {"secao", type text}, {"item", type text}, {"detalhe", type text}}, "en-US")
+				in
+				    Tipado
+
+	annotation PBI_ResultType = Table

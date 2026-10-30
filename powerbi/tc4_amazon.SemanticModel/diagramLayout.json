@@ -1,0 +1,139 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 846.22133757043548,
+            "y": 296.80160472036721
+          },
+          "nodeIndex": "_Medidas",
+          "nodeLineageTag": "a641c18f-f038-52d6-bdd7-7e2bb933e6e5",
+          "size": {
+            "height": 703,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 354.70167269987519,
+            "y": 675.60320944073442
+          },
+          "nodeIndex": "dCategoria",
+          "nodeLineageTag": "afaadb9c-c60d-565f-8951-14d90df899ef",
+          "size": {
+            "height": 380,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1179.2213375704355,
+            "y": 294.80160472036721
+          },
+          "nodeIndex": "dMoeda",
+          "nodeLineageTag": "682d5253-d3c6-5e6f-8c86-d82ca66a4223",
+          "size": {
+            "height": 230,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 682.22133757043559,
+            "y": 0
+          },
+          "nodeIndex": "dTermosAvaliacao",
+          "nodeLineageTag": "dd7a9c38-14e0-5c0c-bc2e-85e83cadf9c1",
+          "size": {
+            "height": 206,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 7,
+            "y": 210.95542607429417
+          },
+          "nodeIndex": "fAvaliacoes",
+          "nodeLineageTag": "3af0622f-4e4a-56ba-8f55-3784d3535b18",
+          "size": {
+            "height": 215,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 345.78142115189866,
+            "y": 0
+          },
+          "nodeIndex": "fProdutos",
+          "nodeLineageTag": "f4574d7f-627f-5a6e-9fd0-1c58f6a99e83",
+          "size": {
+            "height": 516,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1456.2213375704355,
+            "y": 439.80160472036721
+          },
+          "nodeIndex": "dFonte",
+          "nodeLineageTag": "a0a54264-ee2b-50ee-beba-4517345502d0",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1740.2213375704355,
+            "y": 415.80160472036721
+          },
+          "nodeIndex": "dRecomendacao",
+          "nodeLineageTag": "353dd9b0-667b-5d43-95f2-969c9e259e83",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 2024.2213375704355,
+            "y": 391.80160472036721
+          },
+          "nodeIndex": "dTermoComparado",
+          "nodeLineageTag": "7678cc78-0932-5b67-b38f-897802c7e448",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas as tabelas",
+  "defaultDiagram": "Todas as tabelas"
+}

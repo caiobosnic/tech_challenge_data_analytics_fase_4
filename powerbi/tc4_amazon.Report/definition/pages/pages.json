@@ -1,0 +1,20 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.1.0/schema.json",
+  "pageOrder": [
+    "p1_visao",
+    "p2_produtos",
+    "p3_precos",
+    "p4_clientes",
+    "p5_recomenda",
+    "p6_fontes",
+    "p7_produtos",
+    "p8_dica_termo",
+    "p9_dica_medida",
+    "p10_dica_ponderacao",
+    "p11_dica_engajamento",
+    "p12_dica_cambio",
+    "p13_dica_texto",
+    "p14_dica_corte"
+  ],
+  "activePageName": "p1_visao"
+}

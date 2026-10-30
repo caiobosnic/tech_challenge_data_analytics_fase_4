@@ -1,0 +1,126 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/3.3.0/schema.json",
+  "themeCollection": {
+    "baseTheme": {
+      "name": "Fluent2-CY26SU10",
+      "reportVersionAtImport": {
+        "visual": "2.14.0",
+        "report": "3.4.0",
+        "page": "2.3.1"
+      },
+      "type": "SharedResources"
+    }
+  },
+  "objects": {
+    "section": [
+      {
+        "properties": {
+          "verticalAlignment": {
+            "expr": {
+              "Literal": {
+                "Value": "'Top'"
+              }
+            }
+          }
+        }
+      }
+    ]
+  },
+  "resourcePackages": [
+    {
+      "name": "SharedResources",
+      "type": "SharedResources",
+      "items": [
+        {
+          "name": "Fluent2-CY26SU10",
+          "path": "BaseThemes/Fluent2-CY26SU10.json",
+          "type": "BaseTheme"
+        }
+      ]
+    },
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "01_visao_executiva.svg",
+          "path": "01_visao_executiva.svg",
+          "type": "Image"
+        },
+        {
+          "name": "02_produtos_categorias.svg",
+          "path": "02_produtos_categorias.svg",
+          "type": "Image"
+        },
+        {
+          "name": "03_precos_descontos.svg",
+          "path": "03_precos_descontos.svg",
+          "type": "Image"
+        },
+        {
+          "name": "04_customer_insights.svg",
+          "path": "04_customer_insights.svg",
+          "type": "Image"
+        },
+        {
+          "name": "05_recomendacoes.svg",
+          "path": "05_recomendacoes.svg",
+          "type": "Image"
+        },
+        {
+          "name": "06_fontes_premissas.svg",
+          "path": "06_fontes_premissas.svg",
+          "type": "Image"
+        },
+        {
+          "name": "07_produtos_em_foco.svg",
+          "path": "07_produtos_em_foco.svg",
+          "type": "Image"
+        },
+        {
+          "name": "08_dica_termo.svg",
+          "path": "08_dica_termo.svg",
+          "type": "Image"
+        },
+        {
+          "name": "09_dica_medida.svg",
+          "path": "09_dica_medida.svg",
+          "type": "Image"
+        },
+        {
+          "name": "10_dica_ponderacao.svg",
+          "path": "10_dica_ponderacao.svg",
+          "type": "Image"
+        },
+        {
+          "name": "11_dica_engajamento.svg",
+          "path": "11_dica_engajamento.svg",
+          "type": "Image"
+        },
+        {
+          "name": "12_dica_cambio.svg",
+          "path": "12_dica_cambio.svg",
+          "type": "Image"
+        },
+        {
+          "name": "13_dica_texto.svg",
+          "path": "13_dica_texto.svg",
+          "type": "Image"
+        },
+        {
+          "name": "14_dica_corte.svg",
+          "path": "14_dica_corte.svg",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "exportDataMode": "AllowSummarized",
+    "defaultDrillFilterOtherVisuals": true,
+    "allowChangeFilterTypes": true,
+    "useEnhancedTooltips": true,
+    "useDefaultAggregateDisplayName": true
+  }
+}

@@ -1,0 +1,106 @@
+table dCategoria
+	lineageTag: afaadb9c-c60d-565f-8951-14d90df899ef
+
+	column sk_categoria
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: 72385db1-f1f5-5063-8859-54b1c42f96eb
+		summarizeBy: none
+		sourceColumn: sk_categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column caminho_categoria
+		isHidden
+		dataType: string
+		lineageTag: 2b686b76-2a0d-5d46-ac92-9c0a6b27bc61
+		summarizeBy: none
+		sourceColumn: caminho_categoria
+
+		annotation SummarizationSetBy = Automatic
+
+	column nivel_1
+		dataType: string
+		lineageTag: ac08da11-aa2d-5caf-b2b2-a4859e55f5b9
+		summarizeBy: none
+		sourceColumn: nivel_1
+
+		annotation SummarizationSetBy = Automatic
+
+	column nivel_2
+		dataType: string
+		lineageTag: 300fd6cc-4cc5-5a17-9bc5-e40f35388009
+		summarizeBy: none
+		sourceColumn: nivel_2
+
+		annotation SummarizationSetBy = Automatic
+
+	column nivel_3
+		dataType: string
+		lineageTag: 529d341e-56fc-5c42-91a9-22eb6d4b9707
+		summarizeBy: none
+		sourceColumn: nivel_3
+
+		annotation SummarizationSetBy = Automatic
+
+	column nivel_4
+		dataType: string
+		lineageTag: ecbc374c-5f44-5a9b-ad51-c1c4372c57b2
+		summarizeBy: none
+		sourceColumn: nivel_4
+
+		annotation SummarizationSetBy = Automatic
+
+	column nivel_5
+		dataType: string
+		lineageTag: 4bf279b9-422b-55c8-9edf-72871fa7cc18
+		summarizeBy: none
+		sourceColumn: nivel_5
+
+		annotation SummarizationSetBy = Automatic
+
+	column nivel_6
+		dataType: string
+		lineageTag: 3ec08fc3-414a-571c-9172-baae59853397
+		summarizeBy: none
+		sourceColumn: nivel_6
+
+		annotation SummarizationSetBy = Automatic
+
+	column nivel_7
+		dataType: string
+		lineageTag: 4088862f-69fb-5f80-be44-3e9662a10818
+		summarizeBy: none
+		sourceColumn: nivel_7
+
+		annotation SummarizationSetBy = Automatic
+
+	column categoria_folha
+		dataType: string
+		lineageTag: ed7b9213-2fc7-5b94-add8-523005579d2d
+		summarizeBy: none
+		sourceColumn: categoria_folha
+
+		annotation SummarizationSetBy = Automatic
+
+	column profundidade
+		dataType: int64
+		formatString: 0
+		lineageTag: 76edd21c-d658-5e87-8c43-b900de90ec54
+		summarizeBy: none
+		sourceColumn: profundidade
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dCategoria = m
+		mode: import
+		source =
+				let
+				    Origem = Csv.Document(File.Contents("C:\\Users\\bosni\\OneDrive\\Documentos\\Fiap\\PosTech - Data Analytics\\techchallenge\\tech_challenge_4\\results\\dCategoria.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Cabecalho = Table.PromoteHeaders(Origem, [PromoteAllScalars=true]),
+				    Tipado = Table.TransformColumnTypes(Cabecalho, {{"sk_categoria", Int64.Type}, {"caminho_categoria", type text}, {"nivel_1", type text}, {"nivel_2", type text}, {"nivel_3", type text}, {"nivel_4", type text}, {"nivel_5", type text}, {"nivel_6", type text}, {"nivel_7", type text}, {"categoria_folha", type text}, {"profundidade", Int64.Type}}, "en-US")
+				in
+				    Tipado
+
+	annotation PBI_ResultType = Table

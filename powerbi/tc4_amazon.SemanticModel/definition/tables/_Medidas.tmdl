@@ -1,0 +1,157 @@
+table _Medidas
+	lineageTag: a641c18f-f038-52d6-bdd7-7e2bb933e6e5
+
+	measure 'Produtos' = DISTINCTCOUNT(fProdutos[product_id])
+		formatString: #,0
+		lineageTag: ad826bf4-07db-5d78-bd1f-6ee68e29ba16
+
+	measure 'Avaliações' = SUM(fProdutos[rating_count])
+		formatString: #,0
+		lineageTag: 072d4f6a-f716-5afb-b3a7-4188adfa9b54
+
+	measure 'Avaliações com texto' = COUNTROWS(fAvaliacoes)
+		formatString: #,0
+		lineageTag: 167aee05-0576-5999-9dcb-fa9347726b27
+
+	measure 'Taxa selecionada' = SELECTEDVALUE(dMoeda[taxa_por_rupia], 1)
+		formatString: 0.0000
+		lineageTag: bf02b08b-4dfe-519f-888f-4152a665b4e6
+
+	measure 'Símbolo' = SELECTEDVALUE(dMoeda[simbolo], "₹")
+		lineageTag: b60079a6-86ae-5e67-9226-8610f8b7eb47
+
+	measure 'Preço com desconto' = SUM(fProdutos[discounted_price_rupia]) * [Taxa selecionada]
+		formatString: #,0
+		lineageTag: 8c00cde3-4aa9-5009-8ed3-8b5badfc8cfa
+
+	measure 'Preço cheio' = SUM(fProdutos[actual_price_rupia]) * [Taxa selecionada]
+		formatString: #,0
+		lineageTag: e9155e53-7298-56e6-aa65-4a9480036625
+
+	measure 'Preço médio com desconto' = AVERAGE(fProdutos[discounted_price_rupia]) * [Taxa selecionada]
+		formatString: #,0
+		lineageTag: fbfbf5e1-d382-5700-981b-9122555b8c6e
+
+	measure 'Preço cheio médio' = AVERAGE(fProdutos[actual_price_rupia]) * [Taxa selecionada]
+		formatString: #,0
+		lineageTag: 9b1540a9-dd42-51c6-bde7-7da72011cbb1
+
+	measure 'Economia oferecida' = [Preço cheio] - [Preço com desconto]
+		formatString: #,0
+		lineageTag: dda7f38e-6a04-5330-bb4e-1606605c51d2
+
+	measure 'Desconto médio %' = AVERAGE(fProdutos[discount_percentage])
+		formatString: 0.0%
+		lineageTag: cef9fc1d-e874-5457-ae94-827c041ad7d8
+
+	measure 'Nota média simples' = AVERAGE(fProdutos[rating])
+		formatString: 0.00
+		lineageTag: c0f907ce-6b4b-57bd-a2c3-a706390479ba
+
+	measure 'Nota média ponderada' = DIVIDE( SUMX(fProdutos, fProdutos[rating] * fProdutos[rating_count]), SUM(fProdutos[rating_count]), BLANK() )
+		formatString: 0.00
+		lineageTag: 9ff647c3-6e8f-523f-bde3-284521ebd29a
+
+	measure 'Mediana de avaliações' = MEDIAN(fProdutos[rating_count])
+		formatString: #,0
+		lineageTag: 64cf608c-4747-5da8-9bbb-0c1105151362
+
+	measure 'Categorias de nível 1' = CALCULATE( DISTINCTCOUNT(dCategoria[nivel_1]), fProdutos )
+		formatString: #,0
+		lineageTag: 4123d5c8-050d-5908-bb9f-be4e6c4bd906
+
+	measure 'Caminhos de categoria' = CALCULATE( DISTINCTCOUNT(dCategoria[sk_categoria]), fProdutos )
+		formatString: #,0
+		lineageTag: d5c9972b-766b-557d-9899-77006f0d1290
+
+	measure 'Produtos acima da base' = CALCULATE( DISTINCTCOUNT(dTermosAvaliacao[product_id]), dTermosAvaliacao[percepcao] = "acima da base" )
+		formatString: #,0
+		lineageTag: 15c10642-bc24-5c6a-8219-894e2c8ba013
+
+	measure 'Produtos na média' = CALCULATE( DISTINCTCOUNT(dTermosAvaliacao[product_id]), dTermosAvaliacao[percepcao] = "na media" )
+		formatString: #,0
+		lineageTag: d5171cab-3738-5607-b575-3009f8452df8
+
+	measure 'Produtos abaixo da base' = CALCULATE( DISTINCTCOUNT(dTermosAvaliacao[product_id]), dTermosAvaliacao[percepcao] = "abaixo da base" )
+		formatString: #,0
+		lineageTag: 712db814-a4df-5c2f-8a18-2687c65ef874
+
+	measure 'Alto engajamento, nota abaixo da base' = CALCULATE( [Produtos], FILTER( fProdutos, fProdutos[rating_count] >= 4740 && fProdutos[rating] <= 3.9 ) )
+		formatString: #,0
+		lineageTag: 2de74327-692b-537c-8701-a49640dcc52d
+
+	measure 'Nota acima da base, pouca visibilidade' = CALCULATE( [Produtos], FILTER( fProdutos, fProdutos[rating] >= 4.3 && fProdutos[rating_count] < 1000 ) )
+		formatString: #,0
+		lineageTag: f4c1a448-3d0d-55d3-9133-71c0cf7c34af
+
+	measure 'Ocorrências de termo' = SUM(dTermosAvaliacao[ocorrencias])
+		formatString: #,0
+		lineageTag: d731f8f3-afdb-5278-a3ad-e13e8e9c6b7b
+
+	measure 'Diferença em pontos' = SUM(dTermoComparado[diferenca_pp])
+		formatString: +0.0" pp";-0.0" pp";0
+		lineageTag: 88f2a717-d71b-56ea-aa3c-1aaa6e1bf2cc
+
+	measure 'Peso do termo' = SUM(dTermoComparado[peso])
+		formatString: 0.0" pp"
+		lineageTag: 9316acf5-008a-5367-a86a-c4f62e2f021c
+
+	measure '% nos que reclamam' = AVERAGE(dTermoComparado[pct_abaixo])
+		formatString: 0.0"%"
+		lineageTag: 0f190fa9-6d46-5ad1-b5a0-223aeaafc93b
+
+	measure '% nos que elogiam' = AVERAGE(dTermoComparado[pct_acima])
+		formatString: 0.0"%"
+		lineageTag: 4bc56f68-e3d7-520b-a62a-78e5a0bf5193
+
+	measure 'Concentração nas 3 maiores' = DIVIDE( SUMX( TOPN(3, ALL(dCategoria[nivel_1]), [Produtos], DESC), [Produtos] ), CALCULATE([Produtos], ALL(dCategoria)) )
+		formatString: 0.0%
+		lineageTag: c8e11e4a-8853-5c50-925a-548875d28ab1
+
+	measure 'Queda de nota no desconto alto' = CALCULATE([Nota média ponderada], fProdutos[faixa_desconto] = "ate 20%") - CALCULATE([Nota média ponderada], fProdutos[faixa_desconto] = "80% ou mais")
+		formatString: 0.00
+		lineageTag: 8ed0c61c-acb7-5492-8752-ed3b5848fcaf
+
+	measure 'Diferença de ruído' = CALCULATE( [Diferença em pontos], ALL(dTermoComparado), dTermoComparado[termo] = "noise" )
+		formatString: +0.0" pp";-0.0" pp";0
+		lineageTag: eb645ca6-ac87-5b3f-a1d3-d1696320d97f
+
+	measure 'Amplitude da nota entre faixas de preço' = MAXX( VALUES(fProdutos[faixa_preco]), [Nota média ponderada] ) - MINX( VALUES(fProdutos[faixa_preco]), [Nota média ponderada] )
+		formatString: 0.00
+		lineageTag: 5434b8d8-834c-5a17-869e-bced39bc7079
+
+	measure 'Termo em foco' = SELECTEDVALUE(dTermoComparado[termo], "vários termos")
+		lineageTag: e07a9d53-3b60-51b0-b821-e875f5075fe4
+
+	measure 'Produtos com o termo' = SUM(dTermoComparado[produtos])
+		formatString: #,0
+		lineageTag: 534c2d09-fba1-57b6-bdf7-aa69e6316292
+
+	measure 'Faixa em foco' = SELECTEDVALUE(fProdutos[faixa_engajamento], "todas as faixas")
+		lineageTag: ce4c6a1b-95ac-5c2b-be7e-af4dbfb76388
+
+	measure 'Nota ponderada com amostra mínima' = IF( [Produtos] >= 10, [Nota média ponderada] )
+		formatString: 0.00
+		lineageTag: e0b25bba-2be6-5963-a2b2-5b2a9863abf2
+
+	measure 'Produto mais avaliado' = MAXX( TOPN(1, ALLSELECTED(fProdutos), fProdutos[rating_count], DESC), fProdutos[product_name] )
+		lineageTag: d9f7b0e9-9ffb-55ac-bb09-94d0ab2a222b
+
+	column Coluna
+		isHidden
+		dataType: string
+		lineageTag: 5f61e1d4-0ff1-5e5a-98aa-729156fe6edd
+		summarizeBy: none
+		sourceColumn: Coluna
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Medidas = m
+		mode: import
+		source =
+				let
+				    Origem = #table({"Coluna"}, {})
+				in
+				    Origem
+
+	annotation PBI_ResultType = Table

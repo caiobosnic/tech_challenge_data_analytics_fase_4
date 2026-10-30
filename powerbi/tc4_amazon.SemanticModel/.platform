@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "tc4_amazon"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "3b2833f6-28f9-4d79-b9aa-0b2d7abb656f"
+  }
+}

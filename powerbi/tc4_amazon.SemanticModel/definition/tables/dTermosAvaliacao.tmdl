@@ -1,0 +1,47 @@
+table dTermosAvaliacao
+	lineageTag: dd7a9c38-14e0-5c0c-bc2e-85e83cadf9c1
+
+	column product_id
+		dataType: string
+		lineageTag: 691da6a7-bacb-5cc7-a351-af2ad4b0d1c9
+		summarizeBy: none
+		sourceColumn: product_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column termo
+		dataType: string
+		lineageTag: e2e83496-6e63-5c80-92f2-eb7a8a98d9ce
+		summarizeBy: none
+		sourceColumn: termo
+
+		annotation SummarizationSetBy = Automatic
+
+	column ocorrencias
+		dataType: int64
+		formatString: #,0
+		lineageTag: eabfe6e2-deeb-5b44-a25b-a3ed0e5dfd6d
+		summarizeBy: sum
+		sourceColumn: ocorrencias
+
+		annotation SummarizationSetBy = Automatic
+
+	column percepcao
+		dataType: string
+		lineageTag: 2992d119-1105-5cc3-bd14-5f27f4c8a624
+		summarizeBy: none
+		sourceColumn: percepcao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dTermosAvaliacao = m
+		mode: import
+		source =
+				let
+				    Origem = Csv.Document(File.Contents("C:\\Users\\bosni\\OneDrive\\Documentos\\Fiap\\PosTech - Data Analytics\\techchallenge\\tech_challenge_4\\results\\dTermosAvaliacao.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Cabecalho = Table.PromoteHeaders(Origem, [PromoteAllScalars=true]),
+				    Tipado = Table.TransformColumnTypes(Cabecalho, {{"product_id", type text}, {"termo", type text}, {"ocorrencias", Int64.Type}, {"percepcao", type text}}, "en-US")
+				in
+				    Tipado
+
+	annotation PBI_ResultType = Table

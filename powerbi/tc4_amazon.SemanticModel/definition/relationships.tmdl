@@ -1,0 +1,11 @@
+relationship 9694dce1-9ddd-5bd7-90e5-49a61083cc92
+	fromColumn: fProdutos.sk_categoria
+	toColumn: dCategoria.sk_categoria
+
+relationship 064cb739-cefb-5091-b69a-58335c34dfb7
+	fromColumn: fAvaliacoes.product_id
+	toColumn: fProdutos.product_id
+
+relationship daa44328-61be-58fc-a6dc-f6475d52890f
+	fromColumn: dTermosAvaliacao.product_id
+	toColumn: fProdutos.product_id

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "tc4_amazon"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "ae2ce590-d355-4e1c-803e-0ccd9bc05361"
+  }
+}

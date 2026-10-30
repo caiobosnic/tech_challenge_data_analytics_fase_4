@@ -1,118 +1,137 @@
-# Tech Challenge Fase 4: Amazon Product Performance & Customer Insights
+# Tech Challenge Fase 4: dashboard de Power BI gerado por código
 
-PosTech FIAP Data Analytics, Grupo 21.
+PosTech FIAP Data Analytics, Grupo 21. Caio Rodrigues Bosnic Barbosa, RM 372603.
 
-A empresa quer saber **quais produtos, categorias e estratégias comerciais merecem maior
-atenção, e quais oportunidades os dados revelam.** A cadeia que a liderança quer enxergar
-é `preço → desconto → engajamento → satisfação`.
+Trabalho de grupo. Os três notebooks têm autores diferentes e estão creditados abaixo.
+A parte que este repositório detalha é a minha: a modelagem em star schema e o painel.
 
-Base: [Amazon Sales Dataset no Kaggle](https://www.kaggle.com/datasets/karkavelrajaj/amazon-sales-dataset),
-1.465 linhas e 16 colunas, preços em rupia indiana.
+---
+
+## O que tem de diferente aqui
+
+O painel não foi montado arrastando visual no Power BI Desktop. Ele é **escrito por
+script** no formato `.pbip`, que é texto e versiona como código.
+
+```powershell
+python powerbi\fundos\gerar.py                            # 14 fundos SVG
+python powerbi\_modelo\aplicar_modelo.py  "...\powerbi"   # 8 tabelas, 35 medidas
+python powerbi\_modelo\aplicar_visuais.py "...\powerbi"   # 14 páginas, 121 visuais
+python powerbi\_modelo\conferir.py        "...\powerbi"   # confere antes de abrir
+```
+
+Quatro scripts idempotentes. Mudou o texto de uma recomendação no notebook? Roda os
+quatro e o painel inteiro acompanha, incluindo o texto desenhado no fundo.
+
+### O conferidor
+
+`conferir.py` é a parte de que mais gosto. Ele abre os 121 `visual.json` e o modelo TMDL
+antes de o Power BI abrir, e reprova o projeto se achar qualquer uma destas:
+
+| Checagem | O erro que ela evita |
+|---|---|
+| medida ou coluna referenciada que não existe no modelo | visual vazio sem explicação |
+| `sortDefinition` fora de `query` | barra ordenada por nome em vez de valor |
+| `active` em projeção que não é categoria | aviso em todo `tableEx` |
+| cartão com altura menor que `2 × fonte + 14` | número cortado em cima e embaixo |
+| visual que passa da borda da página | visual que some na margem |
+| dica apontando para página que não existe ou não é `type: Tooltip` | hover sem nada |
+| **selo desenhado no fundo sem a entrega correspondente** | promessa que o painel não cumpre |
+| travessão em qualquer arquivo | regra de escrita do projeto |
+
+A última linha é a que mais pegou erro. Cada selo dourado no fundo anuncia uma dica ou
+uma ação; o conferidor cruza o `coordenadas.json` com os visuais gerados e reprova se o
+fundo prometer algo que o visual não entrega. Eram oito selos e, numa das rodadas,
+**nenhum** estava implementado.
+
+A regra de altura de cartão saiu de medição, não de teoria: 15D em 46px e 17D em 52px
+renderizam inteiro, 11D em 34px corta. Razão sozinha não separava os dois casos.
+
+Testei o conferidor plantando defeito de propósito. Ele pega os três e sai com código 1.
+
+### O que foi conferido antes de ser escrito
+
+Todo construto PBIR usado aqui foi lido de um arquivo real do projeto da fase 3, nunca
+escrito de memória: `sortDefinition` dentro de `query`, `columnWidth` com
+`selector.metadata`, `labelPosition: OutsideEnd`, `dataPoint` por medida, ação
+`ClearAllSlicers`, página de dica com `type: Tooltip`.
+
+Duas coisas **não** estão aqui por falta de referência conferida: drill de hierarquia em
+gráfico e filtro Top N. Nos 291 visuais do projeto anterior não existe nenhum dos dois, e
+preferi mudar a promessa do subtítulo a inventar esquema. O card dos 10 mais avaliados usa
+coluna calculada com `RANKX`, e o subtítulo diz "da base" por causa disso.
 
 ## Estrutura
 
 ```
 .
-├── data/
-│   └── amazon.csv                              base baixada do Kaggle
+├── data/amazon.csv                             base do Kaggle
 ├── notebooks/
 │   ├── tc_4_amazon.ipynb                       extração e tratamento inicial
 │   ├── tc_4_amazon_novo.ipynb                  limpeza textual e NLP
-│   └── tc_4_amazon_modelagem_powerbi.ipynb     modelagem em star schema
-├── results/                                    as 9 tabelas que alimentam o painel
-└── dashboard/
-    └── tc4_amazon.pbix                         o entregável
+│   └── tc_4_amazon_modelagem_powerbi.ipynb     star schema, 9 tabelas
+├── results/                                    as 9 tabelas que o painel lê
+└── powerbi/
+    ├── LEIA.md                                 como rodar e o que foi conferido
+    ├── tc4_amazon.pbip                         projeto em texto
+    ├── _modelo/                                os três scripts e o conferidor
+    └── fundos/                                 gerador dos SVG, os 14 fundos e as prévias
 ```
 
-## Os três notebooks
+## O painel
 
-| Notebook | O que faz |
+14 páginas: 6 de leitura, 1 de lista alcançada por botão, e 7 de dica de ferramenta.
+121 visuais, 35 medidas, 10 colunas calculadas.
+
+| Página | O que responde |
 |---|---|
-| `tc_4_amazon.ipynb` | extração e tratamento inicial da base, com pandas e numpy |
-| `tc_4_amazon_novo.ipynb` | limpeza textual e engenharia de atributos com nltk e spacy. Escreve `tabela_atributos_produto.csv` e `tabela_termos_frequencia.csv` |
-| `tc_4_amazon_modelagem_powerbi.ipynb` | consolida tudo em star schema e escreve as 9 tabelas de `results/`. É o que o painel lê |
+| Visão executiva | onde o portfólio ganha e onde perde |
+| Produtos e categorias | relevância, hierarquia e engajamento |
+| Preços e descontos | desconto compra avaliação? e a satisfação por categoria |
+| Customer insights | o que separa quem reclama de quem elogia |
+| Recomendações | seis decisões, cada uma com o número que a sustenta |
+| Fontes e premissas | de onde veio cada número e o que foi assumido |
+| Produtos em foco | os 112 e os 76 que as recomendações mandam investigar, nominalmente |
 
-Os dois primeiros rodam no Colab e leem de `/content/amazon.csv`. O terceiro roda em
-qualquer lugar, basta apontar o caminho da base na primeira célula.
-
-## O que o terceiro notebook resolve
-
-Rode e confira: ele imprime a prova de cada decisão enquanto executa.
-
-**A categoria é hierarquia, não lista.** O campo `category` vem como
-`Electronics|Headphones|In-Ear`. Virou uma coluna por nível, até o 7. Se virasse linha,
-a soma de `rating_count` saltaria de 23,8 milhões para 98,9 milhões, uma inflação de
-**4,2 vezes**. O notebook calcula as duas e mostra lado a lado.
-
-**92 IDs de produto se repetem.** Resolvidos por desempate declarado: menos nulos vence,
-empate decide pelo maior `rating_count`. Quem sobrou e por quê está em
-`results/relatorio_duplicados.csv`. Restam 1.351 produtos.
-
-**`review_id` não é chave.** São 10.598 linhas para 9.265 ids distintos, e 759 ids
-aparecem em produtos diferentes. A tabela de fato usa `sk_avaliacao` como chave
-substituta.
-
-**O corte de percepção é percentil, não número redondo.** O `rating` desta base vai de
-2,0 a 5,0 com mediana 4,10. Um corte fixo em 3,0 marcaria **6 produtos de 1.351** como
-negativos, o que inviabiliza comparar. Os percentis 25 e 75 desta base dão 3,90 e 4,30,
-e separam 340 abaixo, 591 na média e 419 acima.
-
-**Termo exclusivo de uma faixa é nome de marca.** A primeira versão da comparação
-devolvia `boult`, `iqoo`, `sandisk`. A versão final só compara termo presente nas duas
-faixas, por frequência relativa, o que faz aparecer o que interessa: `noise`, `battery`,
-`bass`.
-
-Antes de exportar, o notebook roda asserts. Se algum falhar, não exporta.
-
-## As tabelas em `results/`
-
-| Tabela | Linhas | O que é |
-|---|---|---|
-| `fProdutos` | 1.351 | fato no grão de produto |
-| `dCategoria` | 211 | hierarquia de categoria em colunas |
-| `fAvaliacoes` | 10.598 | uma linha por avaliação com texto |
-| `dTermosAvaliacao` | 114.500 | termo por produto, com a faixa de percepção |
-| `dTermoComparado` | 840 | o que separa quem reclama de quem elogia |
-| `dMoeda` | 3 | desconectada, alimenta a segmentação de moeda |
-| `dRecomendacao` | 6 | **texto autoral**, leitura nossa sobre os números |
-| `dFonte` | 15 | **texto autoral**: premissas, limites, caminho do dado |
-| `relatorio_duplicados` | 92 | os IDs repetidos e como cada um foi resolvido |
-
-As duas marcadas como autorais **não saem da base**. São interpretação nossa, escritas à
-mão na seção 7.5 do notebook. Estão versionadas junto porque o painel precisa delas, mas
-quem citar precisa saber que são leitura, não medição.
+A página de recomendações não é tabela. Cada bloco traz a decisão, o porquê, a base do
+número e um botão que leva à página onde dá para conferir. O número vem de medida do
+modelo e acompanha o filtro; o texto ao redor é fixo e declarado como interpretação.
 
 ## O que a análise encontrou
 
-Tudo conferido na base, nada estimado.
-
 | Achado | Número |
 |---|---|
-| Concentração do catálogo | 97,2% dos produtos em 3 categorias de nível 1 (1.313 de 1.351) |
-| Desconto contra nota | Pearson -0,16, Spearman -0,15. A nota ponderada cai de 4,16 na faixa até 20% para 4,01 na de 80% ou mais |
-| Desconto contra engajamento | +0,00. Desconto maior não traz mais avaliação |
-| Tráfego desperdiçado | 112 produtos com avaliações acima da mediana e nota no quartil inferior |
-| Reputação parada | 76 produtos com nota no quartil superior e menos de mil avaliações |
-| O que separa reclamação de elogio | `average` +13,8 pp, `bad` +13,2 pp, `noise` +9,9 pp, `battery` +8,8 pp, `bass` +8,6 pp |
-| Preço contra satisfação | a nota ponderada varia só 0,10 ponto entre as seis faixas de preço (4,113 a 4,216) |
+| Concentração do catálogo | 97,2% dos produtos em 3 categorias (1.313 de 1.351) |
+| Desconto contra nota | Pearson -0,16. A nota ponderada cai de 4,16 para 4,01 da menor à maior faixa de desconto |
+| Desconto contra engajamento | +0,00 |
+| Tráfego desperdiçado | 112 produtos muito avaliados com nota no quartil inferior |
+| Reputação parada | 76 produtos bem avaliados com menos de mil avaliações |
+| O que separa reclamação de elogio | `average` +13,8 pp, `bad` +13,2 pp, `noise` +9,9 pp |
+| Preço contra satisfação | a nota varia só 0,10 ponto entre as seis faixas de preço |
 
-## Premissas declaradas
+## Decisões de modelagem que mudaram o resultado
 
-**Câmbio.** A base só traz rupia e não traz cotação. A conversão é taxa fixa, declarada
-na tabela `dMoeda`, e serve para ordem de grandeza.
+**A categoria é hierarquia, não lista.** Virar linha inflaria a soma de `rating_count` de
+23,8 milhões para 98,9 milhões, **4,2 vezes**. O notebook calcula as duas e mostra lado a
+lado.
 
-**`rating_count` é proxy de engajamento, não de venda.** A base não traz volume vendido,
-então qualquer leitura de receita é inferência.
+**O corte de percepção é percentil.** Um corte fixo em 3,0 marcaria 6 produtos de 1.351
+como negativos. Os percentis 25 e 75 desta base dão 3,90 e 4,30, e separam 340, 591 e 419.
 
-**Duas contagens de avaliação convivem.** `rating_count` soma 23,8 milhões declaradas; o
-arquivo traz 10.598 linhas de texto. A análise de termos usa só a segunda, e nenhuma
-conclusão dela vale para as 23,8 milhões.
+**Termo exclusivo de uma faixa é nome de marca.** A primeira versão devolvia `boult` e
+`sandisk`. A final compara só termo presente nas duas faixas, por frequência relativa.
+
+**`review_id` não é chave.** 759 ids aparecem em produtos diferentes. A tabela de fato usa
+chave substituta.
+
+## Créditos
+
+| Notebook | Autoria |
+|---|---|
+| `tc_4_amazon.ipynb` | grupo |
+| `tc_4_amazon_novo.ipynb` | grupo |
+| `tc_4_amazon_modelagem_powerbi.ipynb`, modelo e painel | Caio Bosnic |
 
 ## Grupo 21
 
-| Nome | RM |
-|---|---|
-| Alexandre de Souza Amorim | 372077 |
-| Allison Lima | 372648 |
-| Caio Rodrigues Bosnic Barbosa | 372603 |
-| Gusthavo Lourenço Rios Soares | 371911 |
+Alexandre de Souza Amorim (372077) · Allison Lima (372648) ·
+Caio Rodrigues Bosnic Barbosa (372603) · Gusthavo Lourenço Rios Soares (371911)

@@ -1,0 +1,64 @@
+table dRecomendacao
+	lineageTag: 353dd9b0-667b-5d43-95f2-969c9e259e83
+
+	column ordem
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: 1fd74b6e-209c-5cdb-966c-085ea39512ae
+		summarizeBy: none
+		sourceColumn: ordem
+
+		annotation SummarizationSetBy = Automatic
+
+	column decisao
+		dataType: string
+		lineageTag: b770d676-b74f-554d-a780-079b52ded595
+		summarizeBy: none
+		sourceColumn: decisao
+
+		annotation SummarizationSetBy = Automatic
+
+	column por_que
+		dataType: string
+		lineageTag: 0682dbb3-a7bb-59bf-86e9-34447a1bc50a
+		summarizeBy: none
+		sourceColumn: por_que
+
+		annotation SummarizationSetBy = Automatic
+
+	column indicador
+		dataType: string
+		lineageTag: 73d5ed76-4739-5fd6-a479-8341dbc60268
+		summarizeBy: none
+		sourceColumn: indicador
+
+		annotation SummarizationSetBy = Automatic
+
+	column valor_indicador
+		dataType: string
+		lineageTag: 7c525ead-12f1-544c-b0c3-0958364a6d89
+		summarizeBy: none
+		sourceColumn: valor_indicador
+
+		annotation SummarizationSetBy = Automatic
+
+	column onde_ver
+		dataType: string
+		lineageTag: 794bd7f1-e73b-5c2d-84a0-18588b367438
+		summarizeBy: none
+		sourceColumn: onde_ver
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dRecomendacao = m
+		mode: import
+		source =
+				let
+				    Origem = Csv.Document(File.Contents("C:\\Users\\bosni\\OneDrive\\Documentos\\Fiap\\PosTech - Data Analytics\\techchallenge\\tech_challenge_4\\results\\dRecomendacao.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Cabecalho = Table.PromoteHeaders(Origem, [PromoteAllScalars=true]),
+				    Tipado = Table.TransformColumnTypes(Cabecalho, {{"ordem", Int64.Type}, {"decisao", type text}, {"por_que", type text}, {"indicador", type text}, {"valor_indicador", type text}, {"onde_ver", type text}}, "en-US")
+				in
+				    Tipado
+
+	annotation PBI_ResultType = Table

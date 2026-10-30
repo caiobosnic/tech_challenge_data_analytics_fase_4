@@ -1,0 +1,57 @@
+table dMoeda
+	lineageTag: 682d5253-d3c6-5e6f-8c86-d82ca66a4223
+
+	column sk_moeda
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: 75a3ac36-2887-5825-bf26-3da9928b0b3c
+		summarizeBy: none
+		sourceColumn: sk_moeda
+
+		annotation SummarizationSetBy = Automatic
+
+	column moeda
+		dataType: string
+		lineageTag: d237df50-b04e-546a-b28b-dc2e7edfea5b
+		summarizeBy: none
+		sourceColumn: moeda
+
+		annotation SummarizationSetBy = Automatic
+
+	column simbolo
+		dataType: string
+		lineageTag: cb775a74-bba3-5bea-82ec-66a26ee4e90a
+		summarizeBy: none
+		sourceColumn: simbolo
+
+		annotation SummarizationSetBy = Automatic
+
+	column taxa_por_rupia
+		dataType: double
+		formatString: 0.0000
+		lineageTag: b50f44ac-603b-5968-9bdf-09f70b708fc2
+		summarizeBy: none
+		sourceColumn: taxa_por_rupia
+
+		annotation SummarizationSetBy = Automatic
+
+	column data_referencia
+		dataType: string
+		lineageTag: 44876f6c-7516-5dcb-8415-6981a8e2dafb
+		summarizeBy: none
+		sourceColumn: data_referencia
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dMoeda = m
+		mode: import
+		source =
+				let
+				    Origem = Csv.Document(File.Contents("C:\\Users\\bosni\\OneDrive\\Documentos\\Fiap\\PosTech - Data Analytics\\techchallenge\\tech_challenge_4\\results\\dMoeda.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Cabecalho = Table.PromoteHeaders(Origem, [PromoteAllScalars=true]),
+				    Tipado = Table.TransformColumnTypes(Cabecalho, {{"sk_moeda", Int64.Type}, {"moeda", type text}, {"simbolo", type text}, {"taxa_por_rupia", type number}, {"data_referencia", type text}}, "en-US")
+				in
+				    Tipado
+
+	annotation PBI_ResultType = Table

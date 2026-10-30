@@ -1,0 +1,101 @@
+table dTermoComparado
+	lineageTag: 7678cc78-0932-5b67-b38f-897802c7e448
+
+	column sk_termo
+		isHidden
+		dataType: int64
+		formatString: 0
+		lineageTag: 2c9b2d01-5a71-5dd7-b1b1-ad45e924e176
+		summarizeBy: none
+		sourceColumn: sk_termo
+
+		annotation SummarizationSetBy = Automatic
+
+	column termo
+		dataType: string
+		lineageTag: fa6cd1c8-3c40-53e6-ac47-8bd645eabeb7
+		summarizeBy: none
+		sourceColumn: termo
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_abaixo
+		dataType: double
+		formatString: 0.0
+		lineageTag: c46832ce-61aa-58aa-9320-11d386dd3ba8
+		summarizeBy: none
+		sourceColumn: pct_abaixo
+
+		annotation SummarizationSetBy = Automatic
+
+	column pct_acima
+		dataType: double
+		formatString: 0.0
+		lineageTag: bf8aafa4-0492-52d3-a588-8acd2f40fd12
+		summarizeBy: none
+		sourceColumn: pct_acima
+
+		annotation SummarizationSetBy = Automatic
+
+	column produtos
+		dataType: int64
+		formatString: #,0
+		lineageTag: 99a4f4f6-fff3-56c7-a65b-7020506c1252
+		summarizeBy: none
+		sourceColumn: produtos
+
+		annotation SummarizationSetBy = Automatic
+
+	column diferenca_pp
+		dataType: double
+		formatString: +0.0;-0.0;0
+		lineageTag: 41c6ef6e-c2aa-5211-8dd3-d1723e6437a0
+		summarizeBy: none
+		sourceColumn: diferenca_pp
+
+		annotation SummarizationSetBy = Automatic
+
+	column lado
+		dataType: string
+		lineageTag: 565aae87-aee4-53d0-84ea-66b06fddef12
+		summarizeBy: none
+		sourceColumn: lado
+
+		annotation SummarizationSetBy = Automatic
+
+	column peso
+		dataType: double
+		formatString: 0.0
+		lineageTag: b2aea620-2f43-56c3-994e-34b738c82dca
+		summarizeBy: none
+		sourceColumn: peso
+
+		annotation SummarizationSetBy = Automatic
+
+	column destaque
+		dataType: string
+		lineageTag: 36122157-62bb-5320-8799-589ae4add5a9
+		summarizeBy: none
+		sourceColumn: destaque
+
+		annotation SummarizationSetBy = Automatic
+
+	column destaque_lado
+		dataType: string
+		lineageTag: ba57f26a-7258-5d63-8f94-f9527ad70661
+		summarizeBy: none
+		sourceColumn: destaque_lado
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dTermoComparado = m
+		mode: import
+		source =
+				let
+				    Origem = Csv.Document(File.Contents("C:\\Users\\bosni\\OneDrive\\Documentos\\Fiap\\PosTech - Data Analytics\\techchallenge\\tech_challenge_4\\results\\dTermoComparado.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Cabecalho = Table.PromoteHeaders(Origem, [PromoteAllScalars=true]),
+				    Tipado = Table.TransformColumnTypes(Cabecalho, {{"sk_termo", Int64.Type}, {"termo", type text}, {"pct_abaixo", type number}, {"pct_acima", type number}, {"produtos", Int64.Type}, {"diferenca_pp", type number}, {"lado", type text}, {"peso", type number}, {"destaque", type text}, {"destaque_lado", type text}}, "en-US")
+				in
+				    Tipado
+
+	annotation PBI_ResultType = Table
