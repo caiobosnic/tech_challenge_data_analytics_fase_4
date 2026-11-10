@@ -1,6 +1,6 @@
 # Tech Challenge Fase 4: dashboard de Power BI gerado por código
 
-PosTech FIAP Data Analytics, Grupo 21. Caio Rodrigues Bosnic Barbosa, RM 372603.
+PosTech FIAP Data Analytics. Caio Rodrigues Bosnic Barbosa, RM 372603.
 
 Trabalho de grupo. Os três notebooks têm autores diferentes e estão creditados abaixo.
 A parte que este repositório detalha é a minha: a modelagem em star schema e o painel.
@@ -134,7 +134,7 @@ chave substituta.
 | `tc_4_amazon_novo.ipynb` | grupo |
 | `tc_4_amazon_modelagem_powerbi.ipynb`, modelo e painel | Caio Bosnic |
 
-## Grupo 21
+## Integrantes
 
 Alexandre de Souza Amorim (372077) · Allison Lima (372648) ·
 Caio Rodrigues Bosnic Barbosa (372603) · Gusthavo Lourenço Rios Soares (371911)
