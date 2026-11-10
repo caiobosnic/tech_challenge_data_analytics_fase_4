@@ -5,6 +5,9 @@ PosTech FIAP Data Analytics, Grupo 21. Caio Rodrigues Bosnic Barbosa, RM 372603.
 Trabalho de grupo. Os três notebooks têm autores diferentes e estão creditados abaixo.
 A parte que este repositório detalha é a minha: a modelagem em star schema e o painel.
 
+**Vídeo executivo do grupo:** <https://youtu.be/ZIk8-Yih-8w>
+**Repositório do grupo:** <https://github.com/GusthavoSoares/tech_challenge_data_analytics_fase_4>
+
 ---
 
 ## O que tem de diferente aqui
